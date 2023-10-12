@@ -37,7 +37,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'quantity' => $request->quantity,
             'price' => $request->price,
-            'description' => $request->description,
+            'description' => $request->description
         ]);
         return redirect()->route('products.index')->withSuccess('New product is added successfully.');
     }
@@ -54,21 +54,19 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product) : View
+    public function edit(string $id) : View
     {
-        return view('products.edit', [
-            'products' => $product
-        ]);
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('products'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product) : RedirectResponse
+    public function update(Request $request, $product) : RedirectResponse
     {
         $product->update($request->all());
-        return redirect()->back()
-                ->withSuccess('Product is updated successfully.');
+        return redirect()->back()->withSuccess('Product is updated successfully.');
     }
 
     /**
@@ -78,7 +76,6 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->route('index')
-                ->withSuccess('Product is deleted successfully.');
+        return redirect()->route('products.index')->withSuccess('Product is deleted successfully.');
     }
 }

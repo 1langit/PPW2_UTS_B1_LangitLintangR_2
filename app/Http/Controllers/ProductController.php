@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
-use GuzzleHttp\Psr7\Request;
 
 class ProductController extends Controller
 {
@@ -30,7 +30,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(StoreProductRequest $request) : RedirectResponse
     {
         Product::create($request->all());
         return redirect()->route('products.index')->withSuccess('New product is added successfully.');
@@ -57,7 +57,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $product) : RedirectResponse
+    public function update(UpdateProductRequest $request, $product) : RedirectResponse
     {
         $product->update($request->all());
         return redirect()->back()->withSuccess('Product is updated successfully.');

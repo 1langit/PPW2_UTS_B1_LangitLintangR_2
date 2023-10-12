@@ -32,13 +32,7 @@ class ProductController extends Controller
      */
     public function store(Request $request) : RedirectResponse
     {
-        Product::create([
-            'code' => $request->code,
-            'name' => $request->name,
-            'quantity' => $request->quantity,
-            'price' => $request->price,
-            'description' => $request->description
-        ]);
+        Product::create($request->all());
         return redirect()->route('products.index')->withSuccess('New product is added successfully.');
     }
 
